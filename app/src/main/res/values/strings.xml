@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Météo RIL19</string>
+    <string name="loginHint">Votre login</string>
+    <string name="passHint">Votre mot de passe</string>
+    <string name="loginButtonTitle">Se connecter</string>
+    <string name="errorBadLogin">Login incorrect</string>
+    <string name="errorBadPassword">Mot de passe incorrect</string>
+</resources>

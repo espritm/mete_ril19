@@ -1,0 +1,2 @@
+rootProject.name='Météo RIL19'
+include ':app'
