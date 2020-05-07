@@ -6,45 +6,66 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="50dp">
+    android:padding="50dp"
+    >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/headphones_with_music_note"/>
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/meteo"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bienvenue sur mon app !"/>
+        android:text="Bienvenue sur mon app !"
+        android:layout_marginTop="20dp"/>
 
-    <EditText
-        android:id="@+id/loginEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/loginHint"
-        android:maxLines="1"
-        android:singleLine="true"/>
-
-    <EditText
-        android:id="@+id/pwdEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/passHint"
-        android:inputType="textPassword"
-        android:singleLine="true"/>
-
-    <TextView
+   <!-- <TextView
         android:id="@+id/errorTxv"
         android:visibility="gone"
         android:textColor="@android:color/holo_red_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/loginHint"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/loginEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/passHint"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/pwdEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:singleLine="true"/>
+</com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loginButtonTitle"/>
+        android:text="@string/loginButtonTitle"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>

@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
+
 public class HideKeyboardHelper {
 
     public static void setupUI(View view, AppCompatActivity activity) {

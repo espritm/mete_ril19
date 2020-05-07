@@ -5,4 +5,8 @@
     <string name="loginButtonTitle">Se connecter</string>
     <string name="errorBadLogin">Login incorrect</string>
     <string name="errorBadPassword">Mot de passe incorrect</string>
+    <string name="WelcomeText">Bienvenue %s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
