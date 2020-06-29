@@ -1,5 +1,7 @@
 package com.entreprise.monapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,12 +22,18 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.entreprise.monapp.Modele.DonneesMeteo;
+
+import org.json.JSONException;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
+    VolleyError mCurrentError;
+    DonneesMeteo mDonneesMeteo;
 
     TextView welcomeTxv;
     String sLogin;
@@ -70,6 +78,8 @@ public class HomeFragment extends Fragment {
 
     private void callWebService() {
 
+        mCurrentError = null;
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
@@ -83,17 +93,38 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
 
-                        //Affiche un texte temporaire à l'écran, qui disparait après quelques secondes.
-                        Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
-
+                        try {
+                            mDonneesMeteo = new DonneesMeteo(response);
+                        } catch (JSONException e)
+                        {
+                            //Affiche un texte temporaire à l'écran, qui disparait après quelques secondes.
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(getActivity(), "ERROR : " + error.getMessage(), Toast.LENGTH_LONG).show();
+                        mCurrentError = error;
 
+                        //Affiche une feneêtre d'erreur modale.
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setIcon(R.mipmap.ic_launcher);
+                        builder.setTitle(R.string.ErrorVolleyTitle);
+                        builder.setMessage(mCurrentError.getMessage());
+                        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //execute du code à la fermeture du dialog
+                                Toast.makeText(getActivity(), "ERROR : " + mCurrentError.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                        builder.setCancelable(false);
+
+                        builder.show();
                     }
                 });
 
