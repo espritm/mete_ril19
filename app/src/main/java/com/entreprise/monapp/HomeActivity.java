@@ -19,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         String sLogin = getIntent().getStringExtra("userLogin");
 
         //Vérifie si le fragment avait déjà été instancié
-        homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragmentTag");
+        homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragmntTag");
 
         //Instancie le fragment
         if (homeFragment == null) {

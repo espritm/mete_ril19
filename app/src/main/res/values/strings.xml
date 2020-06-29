@@ -6,6 +6,7 @@
     <string name="errorBadLogin">Login incorrect</string>
     <string name="errorBadPassword">Mot de passe incorrect</string>
     <string name="WelcomeText">Bienvenue %s</string>
+    <string name="showDetailActivityBtn">Afficher la page de détail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
