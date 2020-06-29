@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +34,13 @@ import org.json.JSONException;
  */
 public class HomeFragment extends Fragment {
 
-    VolleyError mCurrentError;
     DonneesMeteo mDonneesMeteo;
 
     TextView welcomeTxv;
     String sLogin;
-    Button mBtnShowDetailActivity;
+    //Button mBtnShowDetailActivity;
+    ListView mListView;
+    SwipeRefreshLayout mRefresher;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -55,21 +58,23 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         welcomeTxv = v.findViewById(R.id.welcomeTextView);
-        mBtnShowDetailActivity = v.findViewById(R.id.fragmentHome_Show_DetailActivity_Button);
+        //mBtnShowDetailActivity = v.findViewById(R.id.fragmentHome_Show_DetailActivity_Button);
+        mListView = v.findViewById(R.id.fragment_home_listview);
+        mRefresher = v.findViewById(R.id.fragment_home_refresher);
 
         if(sLogin != null)
             welcomeTxv.setText(String.format(getResources().getString(R.string.WelcomeText), sLogin));
         else
             welcomeTxv.setText(String.format(getResources().getString(R.string.WelcomeText), ""));
 
-        mBtnShowDetailActivity.setOnClickListener(new View.OnClickListener() {
+        /*mBtnShowDetailActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Exécuté lorsque l'utilisateur clique le bouton
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         callWebService();
 
@@ -77,8 +82,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void callWebService() {
-
-        mCurrentError = null;
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -97,8 +100,7 @@ public class HomeFragment extends Fragment {
                             mDonneesMeteo = new DonneesMeteo(response);
                         } catch (JSONException e)
                         {
-                            //Affiche un texte temporaire à l'écran, qui disparait après quelques secondes.
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            showError(e.getMessage());
                         }
                     }
                 },
@@ -106,29 +108,30 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        mCurrentError = error;
-
-                        //Affiche une feneêtre d'erreur modale.
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setIcon(R.mipmap.ic_launcher);
-                        builder.setTitle(R.string.ErrorVolleyTitle);
-                        builder.setMessage(mCurrentError.getMessage());
-                        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                //execute du code à la fermeture du dialog
-                                Toast.makeText(getActivity(), "ERROR : " + mCurrentError.getMessage(), Toast.LENGTH_LONG).show();
-
-                            }
-                        });
-                        builder.setCancelable(false);
-
-                        builder.show();
+                        showError(error.getMessage());
                     }
                 });
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    private void showError(final String sMessage){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setTitle(R.string.ErrorVolleyTitle);
+        builder.setMessage(sMessage);
+        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //Executé du code à la fermeture du dialog
+                //Affiche un texte temporaire à l'écran, qui disparait après quelques secondes.
+                Toast.makeText(getActivity(), "ERROR : " + sMessage, Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setCancelable(false);
+
+        builder.show();
     }
 }

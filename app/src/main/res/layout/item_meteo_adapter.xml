@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp"
+    app:cardBackgroundColor="@color/colorPrimaryWithTransparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="35dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toLeftOf="@+id/item_meteo_imageview">
+
+                <TextView
+                    android:id="@+id/item_meteo_city_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/item_meteo_country_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/item_meteo_imageview"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_toLeftOf="@+id/item_meteo_hour_textview">
+
+                <TextView
+                    android:id="@+id/item_meteo_tmin_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TMIN"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/item_meteo_tmax_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TMAX"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_meteo_hour_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HOUR"
+                android:layout_alignParentRight="true"
+                android:textColor="@android:color/white"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

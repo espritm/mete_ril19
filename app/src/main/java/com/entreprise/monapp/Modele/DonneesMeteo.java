@@ -1,8 +1,5 @@
 package com.entreprise.monapp.Modele;
 
-import android.app.job.JobInfo;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
