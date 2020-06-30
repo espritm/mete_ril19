@@ -7,4 +7,5 @@ public class Constant {
     public static final String DAY_CLICKED_EXTRA = "DayClicked";
     public static final String LOGIN_EXTRA = "userLogin";
     public static final String CITY_INFO_EXTRA = "cityInfo";
+    public static final String DEFAULT_CITY = "defaultCity";
 }

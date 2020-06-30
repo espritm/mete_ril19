@@ -5,10 +5,30 @@
     android:orientation="vertical">
 
     <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:id="@+id/welcomeTextView"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/welcomeTextView"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_city_hint"
+            android:id="@+id/searchCityedittext"
+            android:layout_toLeftOf="@+id/btnSearch"/>
+
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            android:id="@+id/btnSearch"/>
+
+    </RelativeLayout>
 
     <!--<Button
         android:layout_width="wrap_content"

@@ -12,6 +12,11 @@
     <!--Activity Home -->
     <string name="WelcomeText">Bienvenue %s</string>
     <string name="showDetailActivityBtn">Afficher la page de détail</string>
+    <string name="home_fragment_title">Météo</string>
+
+    <string name="settings_fragment_title">Paramètres</string>
+    <string name="disconnect_title">Déconnexion</string>
+    <string name="search_city_hint">Saisissez une ville</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -29,4 +34,15 @@
     <string name="home_fragment_error">Erreur de serrialisation...</string>
 
     <string name="shareTitle">Partager</string>
+    <string name="title_activity_nav_drawer_sample">NavDrawerSampleActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>

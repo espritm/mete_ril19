@@ -1,8 +1,10 @@
 package com.entreprise.monapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +43,8 @@ public class HomeFragment extends Fragment {
     MeteoAdapter mAdapter;
 
     TextView welcomeTxv;
+    EditText mEdtSearchCity;
+    ImageButton mBtnSearch;
     String sLogin;
     //Button mBtnShowDetailActivity;
     ListView mListView;
@@ -59,7 +65,9 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         welcomeTxv = v.findViewById(R.id.welcomeTextView);
-        //mBtnShowDetailActivity = v.findViewById(R.id.fragmentHome_Show_DetailActivity_Button);
+        mEdtSearchCity = v.findViewById(R.id.searchCityedittext);
+        mBtnSearch = v.findViewById(R.id.btnSearch);
+        //mBtnShowDetailActivity = v.findViewById(R.id.fragment;Home_Show_DetailActivity_Button);
         mListView = v.findViewById(R.id.fragment_home_listview);
         mRefresher = v.findViewById(R.id.fragment_home_refresher);
 
@@ -67,6 +75,23 @@ public class HomeFragment extends Fragment {
             welcomeTxv.setText(String.format(getResources().getString(R.string.WelcomeText), sLogin));
         else
             welcomeTxv.setText(String.format(getResources().getString(R.string.WelcomeText), ""));
+
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRefresher.setRefreshing(true);
+                callWebService();
+                }
+        });
+
+        //Gère une ville par défaut dans les SharedPreferences
+        SharedPreferences pref = getActivity().getSharedPreferences(Constant.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        String sCity = pref.getString(Constant.DEFAULT_CITY, "");
+        if (sCity == "") {
+            sCity = "Lyon";
+            pref.edit().putString(Constant.DEFAULT_CITY, sCity).apply();
+        }
+        mEdtSearchCity.setText(sCity);
 
         /*mBtnShowDetailActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +155,7 @@ public class HomeFragment extends Fragment {
 
         // Build URL
         String urlBase = getResources().getString(R.string.URL_Webservice_Base);
-        String url = urlBase + "lyon";
+        String url = urlBase + mEdtSearchCity.getText();
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
