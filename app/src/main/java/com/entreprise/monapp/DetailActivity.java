@@ -5,7 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -69,12 +71,20 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_details_activity, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
 
         if (id == android.R.id.home)
             onBackPressed();
+        else if (id == R.id.share)
+            shareOnSocialNetwork();
 
         return super.onOptionsItemSelected(item);
     }
@@ -82,5 +92,17 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void shareOnSocialNetwork(){
+        //Intent pour partager
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "Salut il va " + mDayToShow.getCondition() + " le " + mDayToShow.getDate());
+
+        //Intent pour choisir comment partager
+        Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.shareTitle));
+
+        startActivity(chooser);
     }
 }

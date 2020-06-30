@@ -27,4 +27,6 @@
     <string name="detail_activity_error_no_day_to_show">Une erreur est survenue, merci de réessayer.</string>
 
     <string name="home_fragment_error">Erreur de serrialisation...</string>
+
+    <string name="shareTitle">Partager</string>
 </resources>
