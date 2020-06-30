@@ -21,6 +21,7 @@ public class DonneesMeteo {
         int i = 0;
         while(jObject.has("fcst_day_" + i)){
             ForcastDay d = new ForcastDay(jObject.getJSONObject("fcst_day_" + i).toString());
+            d.setCityInfo(cityInfo);
             lsForcastDay.add(d);
 
             i++;
@@ -43,11 +44,11 @@ public class DonneesMeteo {
         this.currentCondition = currentCondition;
     }
 
-    public List<ForcastDay> getFcstDay() {
+    public List<ForcastDay> getListFcstDay() {
         return lsForcastDay;
     }
 
-    public void setFcstDay(List<ForcastDay> fcstDay0) {
+    public void setListFcstDay(List<ForcastDay> fcstDay0) {
         this.lsForcastDay = fcstDay0;
     }
 }

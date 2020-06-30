@@ -1,10 +1,15 @@
 <resources>
+
     <string name="app_name">Météo RIL19</string>
+
+    <!--Activity Login -->
     <string name="loginHint">Votre login</string>
     <string name="passHint">Votre mot de passe</string>
     <string name="loginButtonTitle">Se connecter</string>
     <string name="errorBadLogin">Login incorrect</string>
     <string name="errorBadPassword">Mot de passe incorrect</string>
+
+    <!--Activity Home -->
     <string name="WelcomeText">Bienvenue %s</string>
     <string name="showDetailActivityBtn">Afficher la page de détail</string>
 
@@ -15,4 +20,11 @@
 
     <string name="ErrorVolleyTitle">Erreur Volley</string>
     <string name="OK">OK</string>
+
+    <string name="Celsius">°C</string>
+    <string name="Fahrenheit">°F</string>
+
+    <string name="detail_activity_error_no_day_to_show">Une erreur est survenue, merci de réessayer.</string>
+
+    <string name="home_fragment_error">Erreur de serrialisation...</string>
 </resources>

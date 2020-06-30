@@ -11,7 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +20,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.entreprise.monapp.Helpers.Constant;
 import com.entreprise.monapp.Modele.DonneesMeteo;
+import com.entreprise.monapp.Modele.ForcastDay;
 
 import org.json.JSONException;
 
@@ -35,6 +35,8 @@ import org.json.JSONException;
 public class HomeFragment extends Fragment {
 
     DonneesMeteo mDonneesMeteo;
+
+    MeteoAdapter mAdapter;
 
     TextView welcomeTxv;
     String sLogin;
@@ -52,8 +54,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -76,7 +77,48 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
-        callWebService();
+        mAdapter = new MeteoAdapter(getActivity(), 0);
+
+        mListView.setAdapter(mAdapter);
+
+        mRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                callWebService();
+            }
+        });
+
+        mRefresher.post(new Runnable() {
+            @Override
+            public void run() {
+
+                mRefresher.setRefreshing(true);
+
+                callWebService();
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ForcastDay dayClicked = mAdapter.getItem(position);
+
+                String sJson = "";
+                try {
+                    sJson = dayClicked.serrializeToJson();
+                } catch (JSONException e) {
+                    showError(getResources().getString(R.string.home_fragment_error));
+                    return;
+                }
+
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(Constant.DAY_CLICKED_EXTRA, sJson);
+                //intent.putExtra(Constant.CITY_INFO_EXTRA, dayClicked.getCityInfo().getsInitialJson());
+                startActivity(intent);
+            }
+        });
 
         return v;
     }
@@ -98,8 +140,11 @@ public class HomeFragment extends Fragment {
 
                         try {
                             mDonneesMeteo = new DonneesMeteo(response);
-                        } catch (JSONException e)
-                        {
+
+                            mAdapter.addAll(mDonneesMeteo.getListFcstDay());
+
+                            mRefresher.setRefreshing(false);
+                        } catch (JSONException e) {
                             showError(e.getMessage());
                         }
                     }
@@ -107,8 +152,9 @@ public class HomeFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         showError(error.getMessage());
+
+                        mRefresher.setRefreshing(false);
                     }
                 });
 

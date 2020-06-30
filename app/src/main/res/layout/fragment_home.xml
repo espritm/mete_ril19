@@ -21,11 +21,14 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/fragment_home_refresher">
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@null"
             android:id="@+id/fragment_home_listview"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

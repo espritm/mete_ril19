@@ -3,7 +3,9 @@ package com.entreprise.monapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.entreprise.monapp.Helpers.Constant;
+import com.entreprise.monapp.Helpers.EnumDegres;
 import com.entreprise.monapp.Helpers.HideKeyboardHelper;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initPreferences();
+
         //Si l'activité est recréée, on récupère dans le Bundle les valeurs saisies précédement par l'utilisateur
         if (savedInstanceState != null && savedInstanceState.containsKey("login"))
             sLogin = savedInstanceState.getString("login");
@@ -51,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         inputLayoutLogin = findViewById(R.id.inputLayoutLogin);
         inputLayoutPassword = findViewById(R.id.inputLayoutPassword);
 
+        //Pré-rempli l'editText avec le dernier login utilisé
+        SharedPreferences pref = getSharedPreferences(Constant.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        String sPreviousLogin = pref.getString(Constant.LOGIN, "");
+        if (sPreviousLogin != ""){
+            edtLogin.setText(sPreviousLogin);
+            edtLogin.requestFocus();
+        }
+
         //Setup pour cacher le clavier quand on cliquer ailleurs
         HideKeyboardHelper.setupUI(layout, this);
 
@@ -62,9 +76,13 @@ public class MainActivity extends AppCompatActivity {
                 sPwd = edtPassword.getText().toString();
 
                 if (sLogin.equals("maxime")) {
+                    //Save login into SharedPreference
+                    SharedPreferences pref = getSharedPreferences(Constant.PREF_FILE_NAME, Context.MODE_PRIVATE);
+                    pref.edit().putString(Constant.LOGIN, sLogin).apply();
+
                     //Lance la page d'accueil, passe en paramètre le login saisi par l'utilisateur
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.putExtra("userLogin", sLogin);
+                    intent.putExtra(Constant.LOGIN_EXTRA, sLogin);
                     startActivity(intent);
                 }
                 else {
@@ -112,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });*/
+
     }
 
     @Override
@@ -146,5 +165,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void initPreferences(){
+
+        SharedPreferences pref = getSharedPreferences(Constant.PREF_FILE_NAME, Context.MODE_PRIVATE);
+
+        //Par défaut, appli en degrés Celsius
+        int value = pref.getInt(Constant.DEGRE, -1);
+        if (value == -1)
+            pref.edit().putInt(Constant.DEGRE, EnumDegres.Celsius.ordinal()).apply();
     }
 }

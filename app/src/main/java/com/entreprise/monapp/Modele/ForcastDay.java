@@ -18,7 +18,8 @@ public class ForcastDay {
     private String icon;
     private String iconBig;
     private List<HourlyData> lsHourlyData;
-    public String sInitialJson;
+    private String sInitialJson;
+    private CityInfo mCityInfo;
 
     public ForcastDay(String sJson) throws JSONException {
         lsHourlyData = new ArrayList<HourlyData>();
@@ -34,14 +35,48 @@ public class ForcastDay {
         condition = jObject.getString("condition");
         icon = jObject.getString("icon");
 
-        JSONObject jObjectHourlyData = jObject.getJSONObject("hourly_data");
-        int i = 0;
-        while(jObjectHourlyData.has(i + "H00")){
-            HourlyData d = new HourlyData(jObjectHourlyData.getJSONObject(i + "H00").toString());
-            lsHourlyData.add(d);
+        if (jObject.has("city_info"))
+            mCityInfo = new CityInfo(jObject.getString("city_info"));
 
-            i++;
+        if (jObject.has("hourly_data")) {
+            JSONObject jObjectHourlyData = jObject.getJSONObject("hourly_data");
+            int i = 0;
+            while (jObjectHourlyData.has(i + "H00")) {
+                HourlyData d = new HourlyData(jObjectHourlyData.getJSONObject(i + "H00").toString());
+                lsHourlyData.add(d);
+
+                i++;
+            }
         }
+    }
+
+    public String serrializeToJson() throws JSONException {
+        JSONObject jObject = new JSONObject();
+
+        jObject.put("date", date);
+        jObject.put("day_short", dayShort);
+        jObject.put("day_long", dayLong);
+        jObject.put("tmin", tmin);
+        jObject.put("tmax", tmax);
+        jObject.put("condition", condition);
+        jObject.put("condition_key", conditionKey);
+        jObject.put("icon", icon);
+        jObject.put("icon_big", iconBig);
+        jObject.put("city_info", mCityInfo.getsInitialJson());
+
+        return jObject.toString();
+    }
+
+    public CityInfo getCityInfo() {
+        return mCityInfo;
+    }
+
+    public String getInitialJson(){
+        return sInitialJson;
+    }
+
+    public void setCityInfo(CityInfo cityInfo) {
+        this.mCityInfo = cityInfo;
     }
 
     public String getDate() {

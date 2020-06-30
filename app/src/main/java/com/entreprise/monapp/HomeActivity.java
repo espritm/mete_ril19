@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.entreprise.monapp.Helpers.Constant;
+
 public class HomeActivity extends AppCompatActivity {
 
     HomeFragment homeFragment;
@@ -16,7 +18,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         //Récupère les Extra
-        String sLogin = getIntent().getStringExtra("userLogin");
+        String sLogin = getIntent().getStringExtra(Constant.LOGIN_EXTRA);
 
         //Vérifie si le fragment avait déjà été instancié
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("homeFragmntTag");
